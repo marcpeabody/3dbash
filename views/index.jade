@@ -1,2 +1,4 @@
 h1= title
-p Welcome to #{title}
+p= title
+- each movie in data
+  li #{movie.title} :)#{movie.votes.up} :(#{movie.votes.down}

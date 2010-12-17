@@ -3,7 +3,8 @@
  * Module dependencies.
  */
 
-var express = require('express');
+var express = require('express'),
+    Movies = require("./lib/movies");
 
 var app = module.exports = express.createServer();
 
@@ -27,13 +28,45 @@ app.configure('production', function(){
 });
 
 // Routes
+//
+
+var data = [];
+for(var i=0;i<10;i++){
+  var m = new Movies.movie();
+  m.title = "Tron Part:"+i.toString();
+  m.votes.up = i;
+  data.push(m);
+}
 
 app.get('/', function(req, res){
   res.render('index', {
     locals: {
-      title: 'Express'
+      title: 'Welcome to 3D Bash',
+      data: data
     }
   });
+});
+
+app.post("/movies", function(req, res){
+  if (req.body.title) {
+    var m = new Movies.movie();
+    m.title = req.body.title
+    data.push(m);
+    res.send({status: 201, data:m});
+  }
+});
+
+app.post("/up", function(req, res){
+  if (req.body.title) {
+    var m = //lookup movie
+    m.up++;
+    res.render('index', {
+      locals: {
+        title: 'Welcome to 3D Bash',
+        data: data
+      }
+    });
+  }
 });
 
 // Only listen on $ node app.js
