@@ -1,7 +1,7 @@
 h1= title
 p Is it worth seeing in 3D?
-- each movie in data.movies
+- each movie in movies
   .movie
     .title= movie.title
-    .up('data-id':movie.id) :) #{movie.votes.up}
-    .down('data-id':movie.id) :( #{movie.votes.down}
+    .up('data-id':movie.key) :) #{movie.up_count}
+    .down('data-id':movie.key) :( #{movie.down_count}

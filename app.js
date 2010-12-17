@@ -6,11 +6,15 @@ var twitterConsumerSecret = "";
  */
  var _ = require("underscore"),
     express = require('express'),
-    Movies = require("./lib/movies"),
+    movies = require("./lib/movies"),
     auth = require("connect-auth"),
-    data = require("./lib/data").data;
+    mongoose = require('mongoose').Mongoose,
+    db = mongoose.connect('mongodb://localhost/3dbash');
 
 var app = module.exports = express.createServer();
+//bootstrap models;
+_.each([movies], function(model){ model.load(); });
+var Movie = db.model('Movie');
 
 // Configuration
 
@@ -36,53 +40,36 @@ app.configure('production', function(){
 
 // Routes
 app.get('/', function(req, res){
-  res.render('index', {
-    locals: {
-      title: 'Welcome to 3D Bash',
-      data: data
-    }
+  Movie.find().all(function(movies){
+    res.render('index', {
+      locals: {
+        title: 'Welcome to 3D Bash',
+        movies: movies
+      }
+    });
   });
-});
-
-app.post("/movies", function(req, res){
-  if (req.body.title) {
-    var m = new Movies.movie();
-    m.id = parseInt(Date.now());
-    m.title = req.body.title;
-    data.movies.push(m);
-    res.send({status: 201, data:m});
-  }
 });
 
 app.post("/up", function(req, res){
   if (req.body.id) {
-    var m = data.getMovie(req.body.id);
-    m.votes.up++;
-    res.send({status: 200, movie:m});
+    Movie.find({id:req.body.id}).first(function(movie){
+      movie.up_count++;
+      movie.save();
+      res.send({status: 200, movie:movie});
+    });
   }
 });
 
 app.post("/down", function(req, res){
   if (req.body.id) {
-    var m = data.getMovie(req.body.id);
-    m.votes.down++;
-    res.send({status: 200, movie:m});
+    Movie.find({id:req.body.id}).first(function(movie){
+      movie.down_count++;
+      movie.save();
+      res.send({status: 200, movie:movie});
+    });
   }
 });
 
-if(app.settings.env === 'development'){
-  // seed some dev data
-  function newRandomMovie(){
-    var m = new Movies.movie();
-    m.id = parseInt(Date.now());
-    m.title = "Tron v.1."+m.id;
-    data.movies.push(m);
-    if(data.movies.length < 10){
-      setTimeout(newRandomMovie, 1000);
-    }
-  }
-  setTimeout(newRandomMovie, 1000);
-}
 
 // Only listen on $ node app.js
 if (!module.parent) {
