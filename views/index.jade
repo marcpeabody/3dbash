@@ -1,4 +1,7 @@
 h1= title
 p= title
-- each movie in data
-  li #{movie.title} :)#{movie.votes.up} :(#{movie.votes.down}
+- each movie in data.movies
+  .movie
+    .title= movie.title
+    .up('data-id':movie.id) :) #{movie.votes.up}
+    .down('data-id':movie.id) :( #{movie.votes.down}
