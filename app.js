@@ -40,7 +40,7 @@ app.configure('production', function(){
 
 // Routes
 app.get('/', function(req, res){
-  Movie.find().all(function(movies){
+  Movie.find({is3D:1}).all(function(movies){
     res.render('index', {
       locals: {
         title: 'Welcome to 3D Bash',
@@ -52,7 +52,7 @@ app.get('/', function(req, res){
 
 app.post("/up", function(req, res){
   if (req.body.id) {
-    Movie.find({id:req.body.id}).first(function(movie){
+    Movie.find({_id:req.body.id, is3D:1}).first(function(movie){
       movie.up_count++;
       movie.save();
       res.send({status: 200, movie:movie});
@@ -62,7 +62,7 @@ app.post("/up", function(req, res){
 
 app.post("/down", function(req, res){
   if (req.body.id) {
-    Movie.find({id:req.body.id}).first(function(movie){
+    Movie.find({_id:req.body.id, is3D:1}).first(function(movie){
       movie.down_count++;
       movie.save();
       res.send({status: 200, movie:movie});

@@ -2,13 +2,15 @@ $(function(){
   $(".up").live("click",function(){
     var sender = $(this);
     $.post("/up", {id:sender.attr("data-id")}, function(resp){
-      sender.html(":) "+ resp.movie.votes.up);
+      var movie = JSON.parse(resp.movie);
+      sender.html(":) "+ movie.up_count);
     });
   });
   $(".down").live("click",function(){
     var sender = $(this);
     $.post("/down", {id:sender.attr("data-id")}, function(resp){
-      sender.html(":( "+ resp.movie.votes.down);
+      var movie = JSON.parse(resp.movie);
+      sender.html(":) "+ movie.down_count);
     });
   });
 });
