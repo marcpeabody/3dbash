@@ -11,7 +11,7 @@ task('deploy',[], function(){
       if (error !== null) {
         console.log('exec error: ' + error);
       }
-      console.log("done.");
+      console.log("files upload task complete.");
   });
 });
 
@@ -28,9 +28,9 @@ task("reboot", [], function(){
       if (error !== null) {
         console.log('exec error: ' + error);
       }
-      console.log("done.");
+      console.log("reboot task complete.");
   });
 });
 
 desc("send and restart");
-task("send", ['deploy', 'reboot'], function(){console.log("done.");});
+task("send", ['deploy', 'reboot'], function(){console.log("send and reboot complete.");});
