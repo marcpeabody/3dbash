@@ -83,9 +83,10 @@ if(app.settings.env === 'development'){
   }
   setTimeout(newRandomMovie, 1000);
 }
-// Only listen on $ node app.js
 
+// Only listen on $ node app.js
 if (!module.parent) {
-  app.listen(3000);
-  console.log("Express server listening on port %d", app.address().port)
+  app.listen(3000, "localhost", function(){
+    console.log("Node is doing its thang.");
+  });
 }
