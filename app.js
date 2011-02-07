@@ -8,7 +8,7 @@ var twitterConsumerSecret = "";
     express = require('express'),
     movies = require("./lib/movies"),
     auth = require("connect-auth"),
-    mongoose = require('mongoose').Mongoose,
+    mongoose = require('mongoose'),
     db = mongoose.connect('mongodb://localhost/3dbash');
 
 var app = module.exports = express.createServer();
@@ -40,7 +40,7 @@ app.configure('production', function(){
 
 // Routes
 app.get('/', function(req, res){
-  Movie.find({is3D:1}).all(function(movies){
+  Movie.find({isActiveForVoting: 1}, function(err, movies){
     res.render('index', {
       locals: {
         title: 'Welcome to 3D Bash',
