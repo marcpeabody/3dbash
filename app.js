@@ -52,7 +52,7 @@ app.get('/', function(req, res){
 
 app.post("/up", function(req, res){
   if (req.body.id) {
-    Movie.find({_id:req.body.id, is3D:1}).first(function(movie){
+    Movie.findById(req.body.id, function(err, movie){
       movie.up_count++;
       movie.save();
       res.send({status: 200, movie:movie});
@@ -62,7 +62,7 @@ app.post("/up", function(req, res){
 
 app.post("/down", function(req, res){
   if (req.body.id) {
-    Movie.find({_id:req.body.id, is3D:1}).first(function(movie){
+    Movie.findById(req.body.id, function(err, movie){
       movie.down_count++;
       movie.save();
       res.send({status: 200, movie:movie});
