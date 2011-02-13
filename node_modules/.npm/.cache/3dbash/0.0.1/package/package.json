@@ -5,6 +5,7 @@
     "underscore":"",
     "express":"",
     "connect-auth":"",
+    "oauth":"",
     "mongoose":"",
     "jade":""
   }

@@ -1,0 +1,11 @@
+{
+  "name":"3dbash",
+  "version":"0.0.1",
+  "dependencies":{
+    "underscore":"",
+    "express":"",
+    "connect-auth":"",
+    "mongoose":"",
+    "jade":""
+  }
+}
